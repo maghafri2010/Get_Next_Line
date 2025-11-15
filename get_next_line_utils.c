@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabdo <mabdo@student.42.fr>                +#+  +:+       +#+        */
+/*   By: amaghafr <amaghafr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/12 18:41:59 by amaghafr          #+#    #+#             */
-/*   Updated: 2025/11/14 17:32:37 by mabdo            ###   ########.fr       */
+/*   Updated: 2025/11/15 10:45:11 by amaghafr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-static  int ft_strlen(char *str)
+int ft_strlen(char *str)
 {
     int i = 0;
 
@@ -21,7 +21,7 @@ static  int ft_strlen(char *str)
     return(i);
 }
 
-static  int ft_new_line(char *str)
+int ft_new_line(char *str)
 {
     int i = 0;
 
@@ -34,7 +34,7 @@ static  int ft_new_line(char *str)
     return -1;
 }
 
-static char  *ft_strjoin(char *s1, char *s2)
+char    *ft_strjoin(char *s1, char *s2)
 {
     int i = 0;
     int x = 0;
@@ -69,7 +69,7 @@ static char  *ft_strjoin(char *s1, char *s2)
     
 }
 
-static char *ft_strdup(char *str)
+char *ft_strdup(char *str)
 {
     char *string;
     int x;
@@ -91,12 +91,29 @@ static char *ft_strdup(char *str)
     return (string);
 }
 
-static char *ft_readline(char *remaining, int fd)
+char *ft_readline(char *remaining, int fd)
 {
+    int     pos;
+    char    *tmp;
+    char    buffer[BUFFER_SIZE + 1];
     
+    if (!remaining)
+        return ft_strdup("");
+    while (ft_new_line(remaining) == -1)
+    {
+        pos = read(fd, buffer, BUFFER_SIZE);
+        if (pos <= 0)
+            break;
+        buffer[pos] = '\0';
+        tmp = ft_strjoin(remaining, buffer);
+        free(remaining);
+        remaining = tmp;
+    }
+    return remaining;
 }
 
-static char *ft_fill_to_newline(char *remaining)
+
+char *ft_fill_to_newline(char *remaining)
 {
     int     i;
     int     j;
@@ -128,35 +145,38 @@ static char *ft_fill_to_newline(char *remaining)
     return (str);
 }
 
-static char *ft_fill_remaining(char *remaining)
+char *ft_fill_remaining(char *remaining)
 {
-    int i;
-    char *str;
-    int len;
-    int x;
+    char    *str;
+    int     i;
+    int     len;
+    int     x;
 
     x = 0;
     len = ft_strlen(remaining);
     i = 0;
     if (!remaining)
         return NULL;
+    if (!remaining[i])
+    {
+        free(remaining);
+        return NULL;
+    }
     while (remaining[i] != '\n' && remaining[i])
         i++;
     if (remaining[i] == '\n')
     {
         i++;
-        str = malloc(len - i);
+        str = malloc(len - i + 1);
         if (!str)
             return NULL;
         while (remaining[i])
-        {
             str[x++] = remaining[i++];
-        }
         str[x] = '\0';
+        free(remaining);
         return str;
     }
-    return ft_strdup()
-        
-    
+    free(remaining);
+    return NULL;
 }
 
