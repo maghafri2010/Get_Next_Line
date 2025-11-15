@@ -1,31 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   ft_find_newline.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mabdo <mabdo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/12 12:44:41 by amaghafr          #+#    #+#             */
-/*   Updated: 2025/11/15 14:14:42 by mabdo            ###   ########.fr       */
+/*   Created: 2025/11/15 15:41:24 by mabdo             #+#    #+#             */
+/*   Updated: 2025/11/15 15:41:39 by mabdo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*get_next_line(int fd)
+int	ft_new_line(char *str)
 {
-	char		*line;
-	static char	*remaining;
+	int	i;
 
-	if (fd < 0 || BUFFER_SIZE <= 0)
-		return (NULL);
-	remaining = ft_readline(remaining, fd);
-	if (!remaining || remaining[0] == '\0')
+	i = 0;
+	if (!str)
+		return (-1);
+	while (str[i])
 	{
-		free(remaining);
-		return (NULL);
+		if (str[i] == '\n')
+			return (i);
+		i++;
 	}
-	line = ft_fill_to_newline(remaining);
-	remaining = ft_fill_remaining(remaining);
-	return (line);
+	return (-1);
 }

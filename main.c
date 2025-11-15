@@ -1,3 +1,4 @@
+#include <fcntl.h>
 #include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -7,10 +8,10 @@ int main(void)
 {
     char *line;
 
-    while ((line = get_next_line(0)) != NULL)  // 0 = stdin
+    while ((line = get_next_line(0)) != NULL)
     {
-        printf("%s", line);  // print the line
-        free(line);          // free memory after use
+        printf("%s", line); // prints the line including '\n'
+        free(line);
     }
 
     return 0;
