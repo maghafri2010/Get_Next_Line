@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amaghafr <amaghafr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mabdo <mabdo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/12 18:41:59 by amaghafr          #+#    #+#             */
-/*   Updated: 2025/11/14 12:12:23 by amaghafr         ###   ########.fr       */
+/*   Updated: 2025/11/14 17:32:37 by mabdo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,29 +69,94 @@ static char  *ft_strjoin(char *s1, char *s2)
     
 }
 
-static char **ft_split(char *str)
+static char *ft_strdup(char *str)
 {
-    char **array;
+    char *string;
+    int x;
     int i;
-    int n;
-    int newline;
-    int str_len;
 
+    if (!str)
+        return NULL;
+    x = ft_strlen(str);
+    string = malloc(x + 1);
+    if (!string)
+        return NULL;
     i = 0;
-    n = 0;
-    newline = ft_new_line(str);
-    str_len = ft_strlen(str);
-    array = malloc(2 * sizeof(char *));
-    if (!array)
-        return NULL;
-    if (newline != -1)
-        array[0] = malloc(newline + 2);
-    else
-        array[0] = malloc(str_len);
-    if (!array[0])
+    while (str[i])
     {
-        free(array);
-        return NULL;
+        string[i] = str[i];
+        i++;
     }
+    string[i] = '\0';
+    return (string);
+}
+
+static char *ft_readline(char *remaining, int fd)
+{
     
 }
+
+static char *ft_fill_to_newline(char *remaining)
+{
+    int     i;
+    int     j;
+    char    *str;
+
+    j = 0;
+    i = 0;
+    if (!remaining)
+        return NULL;
+    while (remaining[i] != '\n' && remaining[i])
+        i++;
+    if (remaining[i] == '\n')
+        str = malloc(i + 2);
+    else
+        str = malloc(i + 1);
+    if (!str)
+        return NULL;
+    while (remaining[j] && remaining[j] != '\n')
+    {
+        str[j] = remaining[j];
+        j++;
+    }
+    if (remaining[j] == '\n')
+    {
+        str[j] = '\n';
+        j++;
+    }
+    str[j] = '\0';
+    return (str);
+}
+
+static char *ft_fill_remaining(char *remaining)
+{
+    int i;
+    char *str;
+    int len;
+    int x;
+
+    x = 0;
+    len = ft_strlen(remaining);
+    i = 0;
+    if (!remaining)
+        return NULL;
+    while (remaining[i] != '\n' && remaining[i])
+        i++;
+    if (remaining[i] == '\n')
+    {
+        i++;
+        str = malloc(len - i);
+        if (!str)
+            return NULL;
+        while (remaining[i])
+        {
+            str[x++] = remaining[i++];
+        }
+        str[x] = '\0';
+        return str;
+    }
+    return ft_strdup()
+        
+    
+}
+
