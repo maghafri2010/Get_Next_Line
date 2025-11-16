@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_fill_to_remaining.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabdo <mabdo@student.42.fr>                +#+  +:+       +#+        */
+/*   By: amaghafr <amaghafr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/15 15:34:39 by mabdo             #+#    #+#             */
-/*   Updated: 2025/11/15 15:41:06 by mabdo            ###   ########.fr       */
+/*   Updated: 2025/11/16 10:40:18 by amaghafr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-static	char	*ft_fill(char *remaining, int i, int len)
+static	char	*ft_copy(char *remaining, int i, int len)
 {
 	char	*str;
 	int		x;
@@ -52,7 +52,7 @@ char	*ft_fill_remaining(char *remaining)
 		i++;
 	if (remaining[i] == '\n')
 	{
-		str = ft_fill(remaining, i + 1, len);
+		str = ft_copy(remaining, i + 1, len);
 		free(remaining);
 		return (str);
 	}
