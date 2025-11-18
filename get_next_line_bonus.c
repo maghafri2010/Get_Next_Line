@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mabdo <mabdo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/12 12:44:41 by amaghafr          #+#    #+#             */
-/*   Updated: 2025/11/18 11:45:53 by mabdo            ###   ########.fr       */
+/*   Updated: 2025/11/18 12:00:05 by mabdo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,18 +107,18 @@ char	*ft_readline(char *remaining, int fd)
 char	*get_next_line(int fd)
 {
 	char		*line;
-	static char	*remaining;
+	static char	*remaining[1024];
 
-	if (fd < 0 || BUFFER_SIZE <= 0)
+	if (fd < 0 || fd >= 1024 || BUFFER_SIZE <= 0)
 		return (NULL);
-	remaining = ft_readline(remaining, fd);
-	if (!remaining || remaining[0] == '\0')
+	remaining[fd] = ft_readline(remaining[fd], fd);
+	if (!remaining[fd] || remaining[fd][0] == '\0')
 	{
-		free(remaining);
-		remaining = NULL;
+		free(remaining[fd]);
+		remaining[fd] = NULL;
 		return (NULL);
 	}
-	line = ft_fill_to_newline(remaining);
-	remaining = ft_fill_remaining(remaining);
+	line = ft_fill_to_newline(remaining[fd]);
+	remaining[fd] = ft_fill_remaining(remaining[fd]);
 	return (line);
 }
